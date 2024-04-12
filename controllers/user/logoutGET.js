@@ -1,7 +1,7 @@
 const responseMessage = require("../../constants/responseMessage");
 const statusCode = require("../../constants/statusCode");
 const util = require("../../lib/util");
-const { authDB } = require("../../models");
+const { userDB } = require("../../model");
 
 module.exports = async (req, res) => {
     try {

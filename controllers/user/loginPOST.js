@@ -1,7 +1,7 @@
 const responseMessage = require("../../constants/responseMessage");
 const statusCode = require("../../constants/statusCode");
 const util = require("../../lib/util");
-const { authDB } = require("../../models");
+const { userDB } = require("../../model");
 const crypto = require('crypto');
 
 const createHashedPassword = async (password, salt) => 
@@ -22,7 +22,7 @@ module.exports = async (req, res) => {
             .send(util.fail(statusCode.BAD_REQUEST, responseMessage.ALREADY_LOGIN));
         }
 
-        const result = await authDB.getOneUser(email); // 유저 가져오기
+        const result = await userDB.getOneUser(email); // 유저 가져오기
 
         // 존재하지 않는 이메일
         if (result.length == 0) {

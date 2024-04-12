@@ -1,7 +1,7 @@
 const responseMessage = require("../../constants/responseMessage");
 const statusCode = require("../../constants/statusCode");
 const util = require("../../lib/util");
-const { userDB } = require("../../models");
+const { userDB } = require("../../model");
 const { db } = require("../../db");
 const crypto = require('crypto');
 
@@ -30,10 +30,9 @@ module.exports = async (req, res) => {
       if (email && password && password2 && nickname) {
           const result = await userDB.checkUser(email);
           console.log(result.length);
-          if(result.length <= 0 && password == password){
+          if(result.length <= 0 && password == password2){
             const {newpassword, salt} = await createHashedPassword(password);
-            const joinSuccess = await userDB.postJoin(email, 
-             JSON.stringify(newpassword), nickname, JSON.stringify(salt));
+            const joinSuccess = await userDB.postJoin(email, JSON.stringify(newpassword), nickname, JSON.stringify(salt));
             return res.status(statusCode.OK).send(util.success(statusCode.OK, responseMessage.CREATED_USER))
           }
           else if(password != password2){

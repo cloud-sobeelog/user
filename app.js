@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express()
-const dbConfig = require('./models/db')
+const dbConfig = require('./model/db')
 const db = dbConfig.db
 const cors = require('cors');
 
