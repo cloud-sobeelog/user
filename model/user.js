@@ -27,8 +27,17 @@ const getOneUser = async(email) => {
   return rows;
 };
 
+const getUserInfoByUserID = async(userID) => {
+  let sql = `SELECT userID,nickname FROM users WHERE userID = ${userID}`;
+
+  let [rows, fields] = await db.query(sql);
+
+  return rows;
+};
+
 module.exports = {
     postJoin,
     checkUser,
-    getOneUser
+    getOneUser,
+    getUserInfoByUserID
 }
