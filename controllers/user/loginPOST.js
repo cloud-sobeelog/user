@@ -3,6 +3,7 @@ const statusCode = require("../../constants/statusCode");
 const util = require("../../lib/util");
 const { userDB } = require("../../model");
 const crypto = require('crypto');
+const jwtHandlers = require('../../lib/jwtHandlers');
 
 const createHashedPassword = async (password, salt) => 
     new Promise(async (resolve, reject) => {
@@ -36,19 +37,20 @@ module.exports = async (req, res) => {
 
         // 이메일로 유저를 검색 가능하고, 비밀번호가 같은 경우
         if (stringPassword == datapassword) {
-            req.session.user = {
-                id: email,
-                name: result[0].nickname,
-                authorized: true,
-            }
 
             userData = {
                 userID: result[0].userID,
                 nickname: result[0].nickname,
                 email: result[0].email,
             }
+
+            
+            const { accesstoken } = jwtHandlers.sign({userData});
             return res.status(statusCode.OK)
-            .send(util.success(statusCode.OK, responseMessage.LOGIN_SUCCESS, userData));
+            .send(util.success(statusCode.OK, responseMessage.LOGIN_SUCCESS, {
+                userID: userData.userID,
+                accesstoken: accesstoken
+            }));
         }
         else { // 비밀번호 잘못 입력
             return res.status(statusCode.BAD_REQUEST)
