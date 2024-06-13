@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: certification
+spec:
+  secretName: cert-prod
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  commonName: 'www.sobeelog.site'
+  dnsNames:
+  - www.sobeelog.site
